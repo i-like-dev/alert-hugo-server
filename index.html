@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>公告系統（免登入）</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<style>
+
+#banner {
+    width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+form {
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+
+}
+
+label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+select, input[type="text"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid gray;
+  border-radius: 4px;
+  height: 45px;
+}
+
+select, input[type="number"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid gray;
+  border-radius: 4px;
+}
+
+input[type="button"] {
+  width: 100%;
+  background-color: #ef39dd;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 45px;
+  font-size: 18px;
+}
+
+@media screen and (min-width:500px){
+
+#banner {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+form {
+  width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+
+}
+
+input[type="button"]:hover {
+  background-color: #f555d7;
+}
+}
+
+</style>
+
+</head>
+<body>
+<p>公告系統（免登入）</p>
+<form action="" method="post">
+  <label for="helper">請發送公告的人：</label>
+  <select id="helper" name="helper">
+    <option value="Hugo">Hugo</option>
+    <option value="管理員">管理員</option>
+    <option value="版主">版主</option>
+  </select>
+  <br><br>
+  <label for="task">請填寫公告內容：</label>
+  <input required type="text" id="task" name="task" maxlength="100">
+  <br><br>
+  <label for="task">請填寫公告內文：</label>
+  <input required type="text" id="alert" name="alert" maxlength="100">
+  <br><br>
+  <input type="button" value="提交" onclick="sendMessage()">
+</form> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript">
+  function getCurrentTime() {
+    const now = new Date();
+    const year = now.getFullYear(); // 年份
+    const month = now.getMonth() + 1; // 月份（從 0 開始，需要加 1）
+    const day = now.getDate(); // 日期
+    const hours = now.getHours(); // 小時
+    const minutes = now.getMinutes(); // 分鐘
+    const seconds = now.getSeconds(); // 秒數
+
+    // 將數字轉換為雙位數格式（例如，單位數的數字前面補零）
+    const padZero = (num) => {
+        return num < 10 ? '0' + num : num;
+    };
+
+    // 構造時間字符串
+    const timeString = `${year}/${padZero(month)}/${padZero(day)} ${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
+
+    return timeString;
+  }
+
+  function sendMessage() {
+            const selectValue = document.getElementById('helper').value;
+            const inputValue = document.getElementById('task').value;
+            const textValue = document.getElementById('alert').value;
+            const currentTime = getCurrentTime();
+            const webhookUrl = 'https://discord.com/api/webhooks/1240290732103831603/sbEitRzOWZuFZ6YVvBKlWi407kfL3I4xeq28M2qJIypElfkIjKWIr_9dMEvNUykwBAg8'; // 替換為你的 Discord Webhook URL
+            const embed = {
+                title: 'Hugo伺服器 管理員系統 Webmail （公告） - 發送時間：' + currentTime,
+                description: `發送者: ${selectValue}\n公告主旨: ${inputValue}\n公告內文: ${textValue}`,
+                color: 14423100, // Embed 色彩，十六進制表示
+            };
+            const message = {
+                embeds: [embed]
+            };
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(message),
+            })
+            .then(response => {
+                if (!response.ok) {
+               Swal.fire({
+                  title: "送出失敗",
+                  icon: "error"
+                });
+                }
+                // console.log('Message sent successfully to Discord Webhook');
+                Swal.fire({
+                  title: "送出成功",
+                  icon: "success"
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+</script>
+</body>
+</html>
+
+<!-- 此產品製作by 靈魂鯊、糖豆魚(PTDTW) -->
