@@ -5,28 +5,36 @@
 <title>公告系統（免登入）</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+/* Reset & Body */
+* { box-sizing:border-box; margin:0; padding:0; }
 body {
   font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
-  background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
-  margin:0; padding:0;
+  background: linear-gradient(135deg,#0f0c29,#302b63,#24243e);
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
   color:#fff;
 }
+
+/* 容器 */
 .container {
   width:95%;
-  max-width:550px;
+  max-width:600px;
   background: rgba(10,10,10,0.85);
   padding:30px;
   border-radius:20px;
   box-shadow: 0 0 40px rgba(0,255,255,0.3), 0 0 80px rgba(0,255,255,0.2);
   text-align:center;
   border:1px solid cyan;
+  animation: fadeIn 1s ease;
 }
-h1 { font-size:28px; color:#00f7ff; margin-bottom:15px; text-shadow: 0 0 10px #00f7ff;}
+
+/* 標題與描述 */
+h1 { font-size:28px; color:#00f7ff; margin-bottom:15px; text-shadow:0 0 10px #00f7ff; }
 p.desc { color:#a0e5ff; font-size:15px; margin-bottom:25px; }
+
+/* 標籤 */
 label {
   display:block;
   font-weight:bold;
@@ -34,8 +42,10 @@ label {
   text-align:left;
   font-size:16px;
   color:#0ff;
-  text-shadow: 0 0 5px #0ff;
+  text-shadow:0 0 5px #0ff;
 }
+
+/* 輸入欄位與下拉選單 */
 select,input[type="text"] {
   width:100%;
   padding:14px;
@@ -48,15 +58,19 @@ select,input[type="text"] {
   box-shadow: 0 0 10px rgba(0,255,255,0.4);
   transition: all 0.3s ease;
 }
+
 select:focus,input[type="text"]:focus {
   border-color:#ff00ff;
-  box-shadow: 0 0 15px #ff00ff, 0 0 25px rgba(255,0,255,0.2);
+  box-shadow: 0 0 15px #ff00ff,0 0 25px rgba(255,0,255,0.3);
   outline:none;
   background: rgba(0,0,0,0.5);
+  animation: glow 1.2s infinite alternate;
 }
+
+/* 按鈕 */
 input[type="button"] {
   width:100%;
-  background: linear-gradient(90deg, #ff00ff, #00ffff);
+  background: linear-gradient(90deg,#ff00ff,#00ffff);
   color:white;
   padding:16px;
   margin-top:25px;
@@ -66,23 +80,29 @@ input[type="button"] {
   font-size:18px;
   font-weight:bold;
   letter-spacing:1px;
-  box-shadow: 0 0 15px #ff00ff, 0 0 25px #00ffff;
+  box-shadow:0 0 15px #ff00ff,0 0 25px #00ffff;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 input[type="button"]:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 25px #ff00ff, 0 0 45px #00ffff;
+  box-shadow: 0 0 25px #ff00ff,0 0 45px #00ffff;
 }
+
+/* 錯誤訊息卡片 */
 .error-box {
   width:90%; max-width:420px;
   background: rgba(20,0,0,0.85);
   padding:25px;
   border-radius:18px;
-  box-shadow: 0 0 25px #ff0000, 0 0 50px rgba(255,0,0,0.3);
+  box-shadow:0 0 25px #ff0000,0 0 50px rgba(255,0,0,0.3);
   text-align:center;
   border:1px solid #ff0000;
+  animation: fadeIn 1s ease;
 }
-.error-box h2 { color:#ff4c4c; font-size:22px; margin-bottom:15px; text-shadow: 0 0 10px #ff4c4c; }
+
+.error-box h2 { color:#ff4c4c; font-size:22px; margin-bottom:15px; text-shadow:0 0 10px #ff4c4c; }
+
 .auth-btn {
   display:inline-block; margin-top:15px;
   padding:12px 22px;
@@ -92,10 +112,24 @@ input[type="button"]:hover {
   font-weight:bold;
   border-radius:10px;
   text-decoration:none;
-  box-shadow: 0 0 10px #ff4c4c, 0 0 20px rgba(255,0,0,0.3);
+  box-shadow:0 0 10px #ff4c4c,0 0 20px rgba(255,0,0,0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.auth-btn:hover { transform: scale(1.08); box-shadow: 0 0 20px #ff4c4c, 0 0 40px rgba(255,0,0,0.3);}
+
+.auth-btn:hover { transform: scale(1.08); box-shadow:0 0 20px #ff4c4c,0 0 40px rgba(255,0,0,0.3); }
+
+/* 動畫 */
+@keyframes glow {
+  0% { box-shadow:0 0 15px #ff00ff,0 0 25px rgba(255,0,255,0.3); }
+  50% { box-shadow:0 0 25px #ff00ff,0 0 45px rgba(255,0,255,0.4); }
+  100% { box-shadow:0 0 15px #ff00ff,0 0 25px rgba(255,0,255,0.3); }
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform: translateY(-20px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
 </style>
 </head>
 <body>
@@ -103,6 +137,7 @@ input[type="button"]:hover {
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+// DOM Ready
 document.addEventListener("DOMContentLoaded",()=>{
   const app=document.getElementById("app");
   const params=new URLSearchParams(window.location.search);
@@ -132,10 +167,13 @@ document.addEventListener("DOMContentLoaded",()=>{
           <option value="叛逆灬步行貓 Walking Cat 🚶🐱">叛逆灬步行貓 Walking Cat 🚶🐱</option>
           <option value="符符：）">符符：）</option>
         </select>
+
         <label for="task">請填寫公告主旨：</label>
         <input required type="text" id="task" name="task" maxlength="100">
+
         <label for="alert">請填寫公告內文：</label>
         <input required type="text" id="alert" name="alert" maxlength="100">
+
         <input type="button" value="提交" onclick="sendMessage()">
       </form>
     </div>`;
@@ -151,6 +189,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   }
 });
 
+// 發送 Discord Webhook
 function getCurrentTime(){
   const now=new Date();
   const padZero=num=>(num<10?'0'+num:num);
@@ -169,11 +208,16 @@ function sendMessage(){
     color:14423100
   };
   const message={ embeds:[embed] };
-  fetch(webhookUrl,{ method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify(message) })
+  fetch(webhookUrl,{
+    method:'POST',
+    headers:{ 'Content-Type':'application/json' },
+    body:JSON.stringify(message)
+  })
   .then(response=>{
     if(!response.ok){ Swal.fire({title:"送出失敗",icon:"error"}); }
     else{ Swal.fire({title:"送出成功",icon:"success"}); }
-  }).catch(error=>console.error('Error:',error));
+  })
+  .catch(error=>console.error('Error:',error));
 }
 </script>
 </body>
