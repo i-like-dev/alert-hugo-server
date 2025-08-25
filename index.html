@@ -1,173 +1,243 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
-<title>公告系統（免登入）</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<title>公告系統/title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+  body {
+    font-family: "Microsoft JhengHei", sans-serif;
+    background: linear-gradient(135deg, #f8e5ff, #ffe6f3);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-#banner {
-    width: 200px;
-    height: auto;
+  .container {
+    width: 95%;
+    max-width: 550px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  h1 {
+    font-size: 26px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  p.desc {
+    color: #666;
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  label {
     display: block;
-    margin: 0 auto;
-}
+    font-weight: bold;
+    margin-top: 15px;
+    text-align: left;
+    font-size: 16px;
+    color: #444;
+  }
 
-form {
-  width: 300px;
-  margin: 0 auto;
-  padding: 20px;
+  select, input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: border 0.3s ease;
+  }
 
-}
+  select:focus, input[type="text"]:focus {
+    border-color: #ef39dd;
+    outline: none;
+    box-shadow: 0 0 6px rgba(239,57,221,0.5);
+  }
 
-label {
-  font-size: 18px;
-  font-weight: bold;
-  margin-right: 10px;
-}
+  input[type="button"] {
+    width: 100%;
+    background: linear-gradient(90deg, #ef39dd, #f555d7);
+    color: white;
+    padding: 14px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
 
-select, input[type="text"] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border: 2px solid gray;
-  border-radius: 4px;
-  height: 45px;
-}
+  input[type="button"]:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(239,57,221,0.4);
+  }
 
-select, input[type="number"] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border: 2px solid gray;
-  border-radius: 4px;
-}
+  /* 認證錯誤畫面 */
+  .error-box {
+    width: 90%;
+    max-width: 420px;
+    background: #fff5f5;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(255,0,0,0.15);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+  }
 
-input[type="button"] {
-  width: 100%;
-  background-color: #ef39dd;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  height: 45px;
-  font-size: 18px;
-}
+  .error-box h2 {
+    color: #d8000c;
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
 
-@media screen and (min-width:500px){
+  .auth-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 22px;
+    background: linear-gradient(90deg, #ff6a6a, #ff3d3d);
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
 
-#banner {
-    width: 300px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-}
+  .auth-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 15px rgba(255,0,0,0.3);
+  }
 
-form {
-  width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-
-}
-
-input[type="button"]:hover {
-  background-color: #f555d7;
-}
-}
-
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
 </style>
-
 </head>
 <body>
-<p>公告系統（免登入）</p>
-<form action="" method="post">
-  <p>據某人說只要是帥/美的人發送的訊息，會有神秘的事情發生！</p>
-  <label for="helper">請發送公告的人：</label>
-  <select id="helper" name="helper">
-    <option value="最帥的Hugo">Hugo</option>
-    <option value="小黃☃">小黃☃</option>
-    <option value="芋兔">芋兔</option>
-    <option value="南極熊ᵃʷᵃ ∞ ت𖧀ఌ">南極熊ᵃʷᵃ ∞ ت𖧀ఌ</option>
-    <option value="叛逆灬步行貓 Walking Cat 🚶🐱">叛逆灬步行貓 Walking Cat 🚶🐱</option>
-    <option value="符符：）">符符：）</option>
-  </select>
-  <br><br>
-  <label for="task">請填寫公告內容：</label>
-  <input required type="text" id="task" name="task" maxlength="100">
-  <br><br>
-  <label for="task">請填寫公告內文：</label>
-  <input required type="text" id="alert" name="alert" maxlength="100">
-  <br><br>
-  <input type="button" value="提交" onclick="sendMessage()">
-</form> 
+<div id="app"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="text/javascript">
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const auth = params.get("auth");
+  const app = document.getElementById("app");
+
+  if (auth === "success") {
+    Swal.fire({
+      title: "✅ 驗證成功",
+      text: "即將進入公告系統...",
+      icon: "success",
+      timer: 800,
+      showConfirmButton: false
+    }).then(() => {
+      showForm();
+    });
+  } else if (auth === "error") {
+    Swal.fire({
+      title: "❌ 錯誤",
+      text: "未經認證，禁止進入！",
+      icon: "error",
+      confirmButtonText: "確定"
+    }).then(() => {
+      showAuthError();
+    });
+  } else {
+    Swal.fire({
+      title: "⚠️ 未授權",
+      text: "未經認證的帳號，請重新認證",
+      icon: "warning",
+      confirmButtonText: "去認證"
+    }).then(() => {
+      showAuthError();
+    });
+  }
+
+  function showForm() {
+    app.innerHTML = `
+      <div class="container">
+        <h1>公告系統</h1>
+        <p class="desc">據某人說只要是帥/美的人發送的訊息，會有神秘的事情發生！</p>
+        <form>
+          <label for="helper">請發送公告的人：</label>
+          <select id="helper" name="helper">
+            <option value="最帥的Hugo">Hugo</option>
+            <option value="小黃☃">小黃☃</option>
+            <option value="芋兔">芋兔</option>
+            <option value="南極熊ᵃʷᵃ ∞ ت𖧀ఌ">南極熊ᵃʷᵃ ∞ ت𖧀ఌ</option>
+            <option value="叛逆灬步行貓 Walking Cat 🚶🐱">叛逆灬步行貓 Walking Cat 🚶🐱</option>
+            <option value="符符：）">符符：）</option>
+          </select>
+
+          <label for="task">請填寫公告內容：</label>
+          <input required type="text" id="task" name="task" maxlength="100">
+
+          <label for="alert">請填寫公告內文：</label>
+          <input required type="text" id="alert" name="alert" maxlength="100">
+
+          <input type="button" value="提交" onclick="sendMessage()">
+        </form>
+      </div>
+    `;
+  }
+
+  function showAuthError() {
+    app.innerHTML = `
+      <div class="error-box">
+        <h2>🚫 未經認證的帳號</h2>
+        <p>請由以下連結進行認證，才能進入公告系統：</p>
+        <a href="https://auth.walking-cat.com" class="auth-btn">👉 由此處認證</a>
+      </div>
+    `;
+  }
+
   function getCurrentTime() {
     const now = new Date();
-    const year = now.getFullYear(); // 年份
-    const month = now.getMonth() + 1; // 月份（從 0 開始，需要加 1）
-    const day = now.getDate(); // 日期
-    const hours = now.getHours(); // 小時
-    const minutes = now.getMinutes(); // 分鐘
-    const seconds = now.getSeconds(); // 秒數
-
-    // 將數字轉換為雙位數格式（例如，單位數的數字前面補零）
-    const padZero = (num) => {
-        return num < 10 ? '0' + num : num;
-    };
-
-    // 構造時間字符串
-    const timeString = `${year}/${padZero(month)}/${padZero(day)} ${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
-
-    return timeString;
+    const padZero = num => (num < 10 ? '0' + num : num);
+    return `${now.getFullYear()}/${padZero(now.getMonth() + 1)}/${padZero(now.getDate())} ${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())}`;
   }
 
   function sendMessage() {
-            const selectValue = document.getElementById('helper').value;
-            const inputValue = document.getElementById('task').value;
-            const textValue = document.getElementById('alert').value;
-            const currentTime = getCurrentTime();
-            const webhookUrl = 'https://discord.com/api/webhooks/1240290732103831603/sbEitRzOWZuFZ6YVvBKlWi407kfL3I4xeq28M2qJIypElfkIjKWIr_9dMEvNUykwBAg8'; // 替換為你的 Discord Webhook URL
-            const embed = {
-                title: 'Hugo伺服器 公告 系統- 公告時間：' + currentTime,
-                description: `發送訊息者: ${selectValue}\n公告主旨: ${inputValue}\n公告內文: ${textValue}`,
-                color: 14423100, // Embed 色彩，十六進制表示
-            };
-            const message = {
-                embeds: [embed]
-            };
-            fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(message),
-            })
-            .then(response => {
-                if (!response.ok) {
-               Swal.fire({
-                  title: "送出失敗",
-                  icon: "error"
-                });
-                }
-                // console.log('Message sent successfully to Discord Webhook');
-                Swal.fire({
-                  title: "送出成功",
-                  icon: "success"
-                });
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
+    const selectValue = document.getElementById('helper').value;
+    const inputValue = document.getElementById('task').value;
+    const textValue = document.getElementById('alert').value;
+    const currentTime = getCurrentTime();
+    const webhookUrl = 'https://discord.com/api/webhooks/1233007060661174333/OGsn0vzu2GQj0zUNvm7tNPINTmK3TTtCePF8KGrtyR8wnnpHhY3uo2QvRzjRIZZxIyHk';
+
+    const embed = {
+      title: 'Hugo伺服器 公告 系統 - 公告時間：' + currentTime,
+      description: `發送訊息者: ${selectValue}\n公告主旨: ${inputValue}\n公告內文: ${textValue}`,
+      color: 14423100
+    };
+    const message = { embeds: [embed] };
+
+    fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(message)
+    })
+    .then(response => {
+      if (!response.ok) {
+        Swal.fire({title: "送出失敗", icon: "error"});
+      } else {
+        Swal.fire({title: "送出成功", icon: "success"});
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  }
 </script>
 </body>
 </html>
-
-<!-- 此產品製作by 靈魂鯊、糖豆魚(PTDTW) -->
-
-
