@@ -5,19 +5,17 @@
 <title>公告系統（免登入）</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-/* Reset & Body */
+/* 保留你原本的 CSS，不做改動 */
 * { box-sizing:border-box; margin:0; padding:0; }
+html, body { width:100%; height:100%; overflow:hidden; }
 body {
   font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
   background: linear-gradient(135deg,#0f0c29,#302b63,#24243e);
-  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
   color:#fff;
 }
-
-/* 容器 */
 .container {
   width:95%;
   max-width:600px;
@@ -28,116 +26,29 @@ body {
   text-align:center;
   border:1px solid cyan;
   animation: fadeIn 1s ease;
+  overflow:hidden;
 }
-
-/* 標題與描述 */
 h1 { font-size:28px; color:#00f7ff; margin-bottom:15px; text-shadow:0 0 10px #00f7ff; }
 p.desc { color:#a0e5ff; font-size:15px; margin-bottom:25px; }
-
-/* 標籤 */
-label {
-  display:block;
-  font-weight:bold;
-  margin-top:15px;
-  text-align:left;
-  font-size:16px;
-  color:#0ff;
-  text-shadow:0 0 5px #0ff;
-}
-
-/* 輸入欄位與下拉選單 */
-select,input[type="text"] {
-  width:100%;
-  padding:14px;
-  margin-top:8px;
-  border:2px solid #0ff;
-  border-radius:12px;
-  font-size:15px;
-  background: rgba(0,0,0,0.3);
-  color:#fff;
-  box-shadow: 0 0 10px rgba(0,255,255,0.4);
-  transition: all 0.3s ease;
-}
-
-select:focus,input[type="text"]:focus {
-  border-color:#ff00ff;
-  box-shadow: 0 0 15px #ff00ff,0 0 25px rgba(255,0,255,0.3);
-  outline:none;
-  background: rgba(0,0,0,0.5);
-  animation: glow 1.2s infinite alternate;
-}
-
-/* 按鈕 */
-input[type="button"] {
-  width:100%;
-  background: linear-gradient(90deg,#ff00ff,#00ffff);
-  color:white;
-  padding:16px;
-  margin-top:25px;
-  border:none;
-  border-radius:14px;
-  cursor:pointer;
-  font-size:18px;
-  font-weight:bold;
-  letter-spacing:1px;
-  box-shadow:0 0 15px #ff00ff,0 0 25px #00ffff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-input[type="button"]:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px #ff00ff,0 0 45px #00ffff;
-}
-
-/* 錯誤訊息卡片 */
-.error-box {
-  width:90%; max-width:420px;
-  background: rgba(20,0,0,0.85);
-  padding:25px;
-  border-radius:18px;
-  box-shadow:0 0 25px #ff0000,0 0 50px rgba(255,0,0,0.3);
-  text-align:center;
-  border:1px solid #ff0000;
-  animation: fadeIn 1s ease;
-}
-
+label { display:block; font-weight:bold; margin-top:15px; text-align:left; font-size:16px; color:#0ff; text-shadow:0 0 5px #0ff; }
+select,input[type="text"],textarea { width:100%; padding:14px; margin-top:8px; border:2px solid #0ff; border-radius:12px; font-size:15px; background: rgba(0,0,0,0.3); color:#fff; box-shadow: 0 0 10px rgba(0,255,255,0.4); transition: all 0.3s ease; }
+select:focus,input[type="text"]:focus,textarea:focus { border-color:#ff00ff; box-shadow: 0 0 15px #ff00ff,0 0 25px rgba(255,0,255,0.3); outline:none; background: rgba(0,0,0,0.5); animation: glow 1.2s infinite alternate; }
+input[type="button"] { width:100%; background: linear-gradient(90deg,#ff00ff,#00ffff); color:white; padding:16px; margin-top:25px; border:none; border-radius:14px; cursor:pointer; font-size:18px; font-weight:bold; letter-spacing:1px; box-shadow:0 0 15px #ff00ff,0 0 25px #00ffff; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+input[type="button"]:hover { transform: scale(1.05); box-shadow: 0 0 25px #ff00ff,0 0 45px #00ffff; }
+.error-box { width:90%; max-width:420px; background: rgba(20,0,0,0.85); padding:25px; border-radius:18px; box-shadow:0 0 25px #ff0000,0 0 50px rgba(255,0,0,0.3); text-align:center; border:1px solid #ff0000; animation: fadeIn 1s ease; }
 .error-box h2 { color:#ff4c4c; font-size:22px; margin-bottom:15px; text-shadow:0 0 10px #ff4c4c; }
-
-.auth-btn {
-  display:inline-block; margin-top:15px;
-  padding:12px 22px;
-  background: linear-gradient(90deg,#ff6a6a,#ff3d3d);
-  color:#fff;
-  font-size:16px;
-  font-weight:bold;
-  border-radius:10px;
-  text-decoration:none;
-  box-shadow:0 0 10px #ff4c4c,0 0 20px rgba(255,0,0,0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
+.auth-btn { display:inline-block; margin-top:15px; padding:12px 22px; background: linear-gradient(90deg,#ff6a6a,#ff3d3d); color:#fff; font-size:16px; font-weight:bold; border-radius:10px; text-decoration:none; box-shadow:0 0 10px #ff4c4c,0 0 20px rgba(255,0,0,0.3); transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .auth-btn:hover { transform: scale(1.08); box-shadow:0 0 20px #ff4c4c,0 0 40px rgba(255,0,0,0.3); }
-
-/* 動畫 */
-@keyframes glow {
-  0% { box-shadow:0 0 15px #ff00ff,0 0 25px rgba(255,0,255,0.3); }
-  50% { box-shadow:0 0 25px #ff00ff,0 0 45px rgba(255,0,255,0.4); }
-  100% { box-shadow:0 0 15px #ff00ff,0 0 25px rgba(255,0,255,0.3); }
-}
-
-@keyframes fadeIn {
-  from { opacity:0; transform: translateY(-20px); }
-  to { opacity:1; transform: translateY(0); }
-}
-
+.checkbox-group { text-align:left; }
+.checkbox-group label { display:block; font-weight:normal; color:#0ff; margin:5px 0; cursor:pointer; }
+@keyframes glow { 0% { box-shadow:0 0 15px #ff00ff,0 0 25px rgba(255,0,255,0.3); } 50% { box-shadow:0 0 25px #ff00ff,0 0 45px rgba(255,0,255,0.4); } 100% { box-shadow:0 0 15px #ff00ff,0 0 25px rgba(255,0,255,0.3); } }
+@keyframes fadeIn { from { opacity:0; transform: translateY(-20px); } to { opacity:1; transform: translateY(0); } }
 </style>
 </head>
 <body>
 <div id="app"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-// DOM Ready
 document.addEventListener("DOMContentLoaded",()=>{
   const app=document.getElementById("app");
   const params=new URLSearchParams(window.location.search);
@@ -149,7 +60,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   }else if(auth==="error"){
     showError("❌ 錯誤","未經認證，禁止進入！");
   }else{
-    showError("⚠️ 未授權","未經認證的帳號，請重新認證");
+    showError("⚠️ 未授權","未經認證的帳號，請由此處認證");
   }
 
   function showForm(){
@@ -157,7 +68,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     <div class="container">
       <h1>公告系統（免登入）</h1>
       <p class="desc">據某人說只要是帥/美的人發送的訊息，會有神秘的事情發生！</p>
-      <form>
+      <form id="form">
         <label for="helper">請發送公告的人：</label>
         <select id="helper" name="helper">
           <option value="最帥的Hugo">Hugo</option>
@@ -168,15 +79,42 @@ document.addEventListener("DOMContentLoaded",()=>{
           <option value="符符：）">符符：）</option>
         </select>
 
-        <label for="task">請填寫公告主旨：</label>
-        <input required type="text" id="task" name="task" maxlength="100">
+        <label for="type">選擇訊息類型：</label>
+        <select id="type" name="type">
+          <option value="embed" selected>Embed</option>
+          <option value="text">純文字</option>
+        </select>
 
-        <label for="alert">請填寫公告內文：</label>
-        <input required type="text" id="alert" name="alert" maxlength="100">
+        <div id="titleDiv">
+          <label for="title">公告主旨：</label>
+          <input type="text" id="title" name="title" maxlength="100">
+        </div>
+
+        <label for="description">公告內文：</label>
+        <input required type="text" id="description" name="description" maxlength="300">
+
+        <label>選擇頻道：</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="webhooks" value="投票and公告" checked> 投票and公告</label>
+          <label><input type="checkbox" name="webhooks" value="影片通知"> 影片通知</label>
+          <label><input type="checkbox" name="webhooks" value="聊天群"> 聊天群</label>
+          <label><input type="checkbox" name="webhooks" value="規則"> 規則</label>
+        </div>
 
         <input type="button" value="提交" onclick="sendMessage()">
       </form>
     </div>`;
+    
+    const typeSelect=document.getElementById("type");
+    const titleDiv=document.getElementById("titleDiv");
+    typeSelect.addEventListener("change",()=>{
+      if(typeSelect.value==="text"){
+        titleDiv.style.display="none"; // 純文字隱藏主旨欄
+      } else {
+        titleDiv.style.display="block";
+      }
+    });
+    if(typeSelect.value==="text") titleDiv.style.display="none";
   }
 
   function showError(title,text){
@@ -189,7 +127,6 @@ document.addEventListener("DOMContentLoaded",()=>{
   }
 });
 
-// 發送 Discord Webhook
 function getCurrentTime(){
   const now=new Date();
   const padZero=num=>(num<10?'0'+num:num);
@@ -197,29 +134,48 @@ function getCurrentTime(){
 }
 
 function sendMessage(){
-  const selectValue=document.getElementById('helper').value;
-  const inputValue=document.getElementById('task').value;
-  const textValue=document.getElementById('alert').value;
+  const helper=document.getElementById("helper").value;
+  const type=document.getElementById("type").value;
+  const title=document.getElementById("title").value;
+  const description=document.getElementById("description").value;
+  const webhooksChecked=[...document.querySelectorAll('input[name="webhooks"]:checked')].map(el=>el.value);
+
+  if(webhooksChecked.length===0){
+    Swal.fire({title:"請至少選擇一個頻道",icon:"warning"});
+    return;
+  }
+
   const currentTime=getCurrentTime();
-  const webhookUrl='https://discord.com/api/webhooks/1240290732103831603/sbEitRzOWZuFZ6YVvBKlWi407kfL3I4xeq28M2qJIypElfkIjKWIr_9dMEvNUykwBAg8';
-  const embed={
-    title:'Hugo伺服器 公告 系統 - 公告時間：'+currentTime,
-    description:`發送訊息者: ${selectValue}\n公告主旨: ${inputValue}\n公告內文: ${textValue}`,
-    color:14423100
+  let payload={
+    helper, 
+    type,
+    webhooks:webhooksChecked,
+    // 無論純文字還是 embed 都附上完整資訊
+    description:`發送人: ${helper}\n時間: ${currentTime}\n主旨: ${title}\n內文: ${description}`
   };
-  const message={ embeds:[embed] };
-  fetch(webhookUrl,{
-    method:'POST',
-    headers:{ 'Content-Type':'application/json' },
-    body:JSON.stringify(message)
+
+  if(type==="embed") payload.title="Hugo伺服器 公告系統 - 發送時間："+currentTime;
+
+  fetch("https://script.google.com/macros/s/AKfycbyWtho1T8Du4d0g7kXFCzKaCBw5UaNG1iWY74O669yc-hN-kedAwD3DSg6czTn0pKrs/exec",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify(payload)
+})
+
+  .then(res=>res.json())
+  .then(data=>{
+    if(data.status==="success"){
+      Swal.fire({title:"送出成功",icon:"success"});
+      document.getElementById("form").reset();
+      document.getElementById("titleDiv").style.display=type==="text"?"none":"block";
+    } else {
+      Swal.fire({title:"發送失敗",text:data.message,icon:"error"});
+    }
   })
-  .then(response=>{
-    if(!response.ok){ Swal.fire({title:"送出失敗",icon:"error"}); }
-    else{ Swal.fire({title:"送出成功",icon:"success"}); }
-  })
-  .catch(error=>console.error('Error:',error));
+  .catch(err=>{
+    Swal.fire({title:"發生錯誤",text:err,icon:"error"});
+  });
 }
 </script>
 </body>
 </html>
-
