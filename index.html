@@ -4,37 +4,110 @@
   <meta charset="UTF-8">
   <title>公告系統</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f5f5f5; text-align: center; }
-    .container { max-width: 500px; margin: 50px auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-    input, textarea, select, button { width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
-    button { background: #4CAF50; color: white; font-size: 16px; border: none; cursor: pointer; }
-    button:hover { background: #45a049; }
-    .error { color: red; font-weight: bold; }
+    body {
+      font-family: 'Microsoft JhengHei', Arial, sans-serif;
+      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #4CAF50;
+      box-shadow: 0 0 8px rgba(76,175,80,0.3);
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #4CAF50;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .error {
+      color: #e74c3c;
+      font-weight: bold;
+      font-size: 16px;
+      margin: 15px 0;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
   <div class="container" id="app">
-    <h2>公告系統</h2>
+    <h2>📢 Hugo 公告系統</h2>
+    <!-- 驗證錯誤顯示 -->
     <div id="auth-error" class="error" style="display:none;">
-      錯誤，您沒通過驗證<br>
-      <a href="https://auth.walking-cat.com">點我去驗證</a>
+      ❌ 錯誤，您沒通過驗證<br><br>
+      <a href="https://auth.walking-cat.com">👉 點我去驗證</a>
     </div>
+
+    <!-- 表單 -->
     <form id="announce-form" style="display:none;">
-      <input type="text" id="helper" placeholder="發送人" required>
-      <input type="text" id="title" placeholder="公告主旨">
-      <textarea id="description" placeholder="公告內容" required></textarea>
+      <input type="text" id="helper" placeholder="👤 發送人" required>
+      <input type="text" id="title" placeholder="📝 公告主旨 (可留空)">
+      <textarea id="description" placeholder="📄 公告內容" rows="5" required></textarea>
+      <label>📌 選擇要發送的頻道：</label>
       <select id="webhooks" multiple required>
-        <option value="投票and公告">投票and公告</option>
+        <option value="投票and公告">投票 and 公告</option>
         <option value="影片通知">影片通知</option>
         <option value="聊天群">聊天群</option>
         <option value="規則">規則</option>
       </select>
+      <label>📦 顯示方式：</label>
       <select id="type">
         <option value="embed">Embed</option>
         <option value="text">Text</option>
       </select>
-      <button type="submit">送出公告</button>
+      <button type="submit">🚀 發送公告</button>
     </form>
+
     <div id="result"></div>
   </div>
 
@@ -46,10 +119,10 @@
     if (auth === "success") {
       // 通過驗證 → 顯示表單
       document.getElementById("announce-form").style.display = "block";
-      // 清除網址上的 ?auth=success
+      // 清掉網址上的 ?auth=success
       window.history.replaceState({}, document.title, window.location.pathname);
     } else {
-      // 沒通過驗證 → 顯示錯誤
+      // 驗證失敗 → 顯示錯誤
       document.getElementById("auth-error").style.display = "block";
     }
 
