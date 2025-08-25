@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<title>公告系統</title>
+<title>公告系統（免登入）</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -132,33 +132,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const auth = params.get("auth");
   const app = document.getElementById("app");
 
   if (auth === "success") {
-    // 直接顯示表單
-    showForm();
     // 清除網址上的 ?auth=success
     history.replaceState({}, document.title, window.location.pathname);
+    showForm();
   } else if (auth === "error") {
-    Swal.fire({
-      title: "❌ 錯誤",
-      text: "未經認證，禁止進入！",
-      icon: "error",
-      confirmButtonText: "確定"
-    }).then(() => {
-      showAuthError();
-    });
+    showError("❌ 錯誤", "未經認證，禁止進入！");
   } else {
-    Swal.fire({
-      title: "⚠️ 未授權",
-      text: "未經認證的帳號，請重新認證",
-      icon: "warning",
-      confirmButtonText: "去認證"
-    }).then(() => {
-      showAuthError();
-    });
+    showError("⚠️ 未授權", "未經認證的帳號，請重新認證");
   }
 
   function showForm() {
@@ -189,50 +175,52 @@
     `;
   }
 
-  function showAuthError() {
+  function showError(title, text) {
     app.innerHTML = `
       <div class="error-box">
-        <h2>🚫 未經認證的帳號</h2>
-        <p>請由以下連結進行認證，才能進入公告系統：</p>
+        <h2>${title}</h2>
+        <p>${text}</p>
         <a href="https://auth.walking-cat.com" class="auth-btn">👉 由此處認證</a>
       </div>
     `;
   }
+});
 
-  function getCurrentTime() {
-    const now = new Date();
-    const padZero = num => (num < 10 ? '0' + num : num);
-    return `${now.getFullYear()}/${padZero(now.getMonth() + 1)}/${padZero(now.getDate())} ${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())}`;
-  }
+// ---- 送出 Discord Webhook ----
+function getCurrentTime() {
+  const now = new Date();
+  const padZero = num => (num < 10 ? '0' + num : num);
+  return `${now.getFullYear()}/${padZero(now.getMonth() + 1)}/${padZero(now.getDate())} ${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())}`;
+}
 
-  function sendMessage() {
-    const selectValue = document.getElementById('helper').value;
-    const inputValue = document.getElementById('task').value;
-    const textValue = document.getElementById('alert').value;
-    const currentTime = getCurrentTime();
-    const webhookUrl = 'https://discord.com/api/webhooks/1233007060661174333/OGsn0vzu2GQj0zUNvm7tNPINTmK3TTtCePF8KGrtyR8wnnpHhY3uo2QvRzjRIZZxIyHk';
+function sendMessage() {
+  const selectValue = document.getElementById('helper').value;
+  const inputValue = document.getElementById('task').value;
+  const textValue = document.getElementById('alert').value;
+  const currentTime = getCurrentTime();
+  const webhookUrl = 'https://discord.com/api/webhooks/1233007060661174333/OGsn0vzu2GQj0zUNvm7tNPINTmK3TTtCePF8KGrtyR8wnnpHhY3uo2QvRzjRIZZxIyHk';
 
-    const embed = {
-      title: 'Hugo伺服器 公告 系統 - 公告時間：' + currentTime,
-      description: `發送訊息者: ${selectValue}\n公告主旨: ${inputValue}\n公告內文: ${textValue}`,
-      color: 14423100
-    };
-    const message = { embeds: [embed] };
+  const embed = {
+    title: 'Hugo伺服器 公告 系統 - 公告時間：' + currentTime,
+    description: `發送訊息者: ${selectValue}\n公告主旨: ${inputValue}\n公告內文: ${textValue}`,
+    color: 14423100
+  };
+  const message = { embeds: [embed] };
 
-    fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(message)
-    })
-    .then(response => {
-      if (!response.ok) {
-        Swal.fire({title: "送出失敗", icon: "error"});
-      } else {
-        Swal.fire({title: "送出成功", icon: "success"});
-      }
-    })
-    .catch(error => console.error('Error:', error));
-  }
+  fetch(webhookUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(message)
+  })
+  .then(response => {
+    if (!response.ok) {
+      Swal.fire({title: "送出失敗", icon: "error"});
+    } else {
+      Swal.fire({title: "送出成功", icon: "success"});
+    }
+  })
+  .catch(error => console.error('Error:', error));
+}
 </script>
 </body>
 </html>
