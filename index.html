@@ -6,33 +6,96 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body {
-  font-family: "Microsoft JhengHei", sans-serif;
-  background: linear-gradient(135deg,#f8e5ff,#ffe6f3);
+  font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
+  background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
   margin:0; padding:0;
   min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
+  color:#fff;
 }
 .container {
   width:95%;
   max-width:550px;
-  background:#fff;
-  padding:25px;
+  background: rgba(10,10,10,0.85);
+  padding:30px;
   border-radius:20px;
-  box-shadow:0 8px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 0 40px rgba(0,255,255,0.3), 0 0 80px rgba(0,255,255,0.2);
   text-align:center;
+  border:1px solid cyan;
 }
-h1 { font-size:26px; color:#333; margin-bottom:15px;}
-p.desc { color:#666; font-size:15px; margin-bottom:20px;}
-label { display:block; font-weight:bold; margin-top:15px; text-align:left; font-size:16px; color:#444;}
-select,input[type="text"] { width:100%; padding:12px; margin-top:6px; border:2px solid #ddd; border-radius:10px; font-size:15px;}
-select:focus,input[type="text"]:focus { border-color:#ef39dd; outline:none; box-shadow:0 0 6px rgba(239,57,221,0.5);}
-input[type="button"] { width:100%; background:linear-gradient(90deg,#ef39dd,#f555d7); color:white; padding:14px; margin-top:20px; border:none; border-radius:12px; cursor:pointer; font-size:18px; font-weight:bold; letter-spacing:1px;}
-input[type="button"]:hover { transform:scale(1.05); box-shadow:0 6px 15px rgba(239,57,221,0.4);}
-.error-box { width:90%; max-width:420px; background:#fff5f5; padding:25px; border-radius:18px; box-shadow:0 6px 20px rgba(255,0,0,0.15); text-align:center;}
-.error-box h2 { color:#d8000c; font-size:22px; margin-bottom:15px;}
-.auth-btn { display:inline-block; margin-top:15px; padding:12px 22px; background:linear-gradient(90deg,#ff6a6a,#ff3d3d); color:#fff; font-size:16px; font-weight:bold; border-radius:10px; text-decoration:none;}
+h1 { font-size:28px; color:#00f7ff; margin-bottom:15px; text-shadow: 0 0 10px #00f7ff;}
+p.desc { color:#a0e5ff; font-size:15px; margin-bottom:25px; }
+label {
+  display:block;
+  font-weight:bold;
+  margin-top:15px;
+  text-align:left;
+  font-size:16px;
+  color:#0ff;
+  text-shadow: 0 0 5px #0ff;
+}
+select,input[type="text"] {
+  width:100%;
+  padding:14px;
+  margin-top:8px;
+  border:2px solid #0ff;
+  border-radius:12px;
+  font-size:15px;
+  background: rgba(0,0,0,0.3);
+  color:#fff;
+  box-shadow: 0 0 10px rgba(0,255,255,0.4);
+  transition: all 0.3s ease;
+}
+select:focus,input[type="text"]:focus {
+  border-color:#ff00ff;
+  box-shadow: 0 0 15px #ff00ff, 0 0 25px rgba(255,0,255,0.2);
+  outline:none;
+  background: rgba(0,0,0,0.5);
+}
+input[type="button"] {
+  width:100%;
+  background: linear-gradient(90deg, #ff00ff, #00ffff);
+  color:white;
+  padding:16px;
+  margin-top:25px;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  font-size:18px;
+  font-weight:bold;
+  letter-spacing:1px;
+  box-shadow: 0 0 15px #ff00ff, 0 0 25px #00ffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="button"]:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px #ff00ff, 0 0 45px #00ffff;
+}
+.error-box {
+  width:90%; max-width:420px;
+  background: rgba(20,0,0,0.85);
+  padding:25px;
+  border-radius:18px;
+  box-shadow: 0 0 25px #ff0000, 0 0 50px rgba(255,0,0,0.3);
+  text-align:center;
+  border:1px solid #ff0000;
+}
+.error-box h2 { color:#ff4c4c; font-size:22px; margin-bottom:15px; text-shadow: 0 0 10px #ff4c4c; }
+.auth-btn {
+  display:inline-block; margin-top:15px;
+  padding:12px 22px;
+  background: linear-gradient(90deg,#ff6a6a,#ff3d3d);
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+  border-radius:10px;
+  text-decoration:none;
+  box-shadow: 0 0 10px #ff4c4c, 0 0 20px rgba(255,0,0,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.auth-btn:hover { transform: scale(1.08); box-shadow: 0 0 20px #ff4c4c, 0 0 40px rgba(255,0,0,0.3);}
 </style>
 </head>
 <body>
@@ -88,7 +151,6 @@ document.addEventListener("DOMContentLoaded",()=>{
   }
 });
 
-// 發送 Discord Webhook
 function getCurrentTime(){
   const now=new Date();
   const padZero=num=>(num<10?'0'+num:num);
@@ -97,8 +159,8 @@ function getCurrentTime(){
 
 function sendMessage(){
   const selectValue=document.getElementById('helper').value;
-  const inputValue=document.getElementById('task').value; // 公告主旨
-  const textValue=document.getElementById('alert').value; // 公告內文
+  const inputValue=document.getElementById('task').value;
+  const textValue=document.getElementById('alert').value;
   const currentTime=getCurrentTime();
   const webhookUrl='https://discord.com/api/webhooks/1233007060661174333/OGsn0vzu2GQj0zUNvm7tNPINTmK3TTtCePF8KGrtyR8wnnpHhY3uo2QvRzjRIZZxIyHk';
   const embed={
