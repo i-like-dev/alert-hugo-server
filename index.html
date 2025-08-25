@@ -1,268 +1,193 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<title>Hugo 公告系統（免登入）</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<style>
-body {
-    font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
-    background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
-    color: #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    flex-direction: column;
-    padding: 20px;
-}
-#container {
-    background: rgba(30,30,40,0.9);
-    border-radius: 15px;
-    padding: 30px;
-    width: 100%;
-    max-width: 650px;
-    text-align: center;
-    box-shadow: 0 0 20px #ef39dd;
-    animation: glow 2s infinite alternate;
-}
-@keyframes glow {
-    0% { box-shadow: 0 0 20px #ef39dd; }
-    100% { box-shadow: 0 0 40px #f555d7; }
-}
-h1 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #ef39dd;
-    text-shadow: 0 0 10px #f555d7;
-}
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    text-align: left;
-}
-label {
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
-}
-select, input[type="text"], textarea {
-    width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #ef39dd;
-    border-radius: 8px;
-    background: rgba(20,20,30,0.8);
-    color: #ffffff;
-    outline: none;
-    transition: 0.3s;
-    font-size: 16px;
-}
-select:focus, input[type="text"]:focus, textarea:focus {
-    border-color: #f555d7;
-    box-shadow: 0 0 8px #f555d7;
-}
-input[type="button"], .auth-button {
-    width: 100%;
-    background-color: #ef39dd;
-    color: white;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: 0.3s;
-    position: relative;
-    overflow: hidden;
-}
-input[type="button"]:hover, .auth-button:hover {
-    background-color: #f555d7;
-    box-shadow: 0 0 10px #f555d7;
-}
-.input-glow::before {
-    content: "";
-    position: absolute;
-    top: -2px; left: -2px; right: -2px; bottom: -2px;
-    background: linear-gradient(45deg, #ef39dd, #f555d7, #ef39dd);
-    z-index: -1;
-    border-radius: 8px;
-    filter: blur(8px);
-    opacity: 0.7;
-    animation: animateBorder 3s linear infinite;
-}
-@keyframes animateBorder {
-    0% { background-position: 0 0; }
-    50% { background-position: 400% 0; }
-    100% { background-position: 0 0; }
-}
-p {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #ffffff;
-}
-#error {
-    color: #ff5555;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 20px;
-}
-#authLinkContainer {
-    margin-top: 20px;
-    text-align: center;
-}
-.webhook-container {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-.webhook-container label {
-    position: relative;
-    padding-left: 30px;
-    cursor: pointer;
-    user-select: none;
-}
-.webhook-container input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-}
-.webhook-container input[type="checkbox"] + span {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: rgba(20,20,30,0.8);
-    border: 2px solid #ef39dd;
-    border-radius: 4px;
-}
-.webhook-container input[type="checkbox"]:checked + span {
-    background-color: #f5e942; /* 黃色 */
-    box-shadow: 0 0 8px #f5e942;
-}
-@media screen and (min-width:500px){
-    h1 { font-size: 32px; }
-    select, input[type="text"], textarea, input[type="button"], .auth-button { font-size: 18px; height: 50px; }
-}
-</style>
+  <meta charset="UTF-8">
+  <title>公告系統（免登入）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    /* === 原始科技感 CSS === */
+    body {
+      font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
+      background: radial-gradient(circle at top left, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    #banner {
+      width: 300px;
+      display: block;
+      margin: 30px auto;
+    }
+    form {
+      width: 500px;
+      margin: 20px auto;
+      padding: 30px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+    label {
+      font-size: 16px;
+      font-weight: bold;
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input[type="text"], textarea, select {
+      width: 100%;
+      padding: 12px 20px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      border: 2px solid #888;
+      border-radius: 8px;
+      background: #222;
+      color: #fff;
+      font-size: 14px;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #ef39dd;
+      box-shadow: 0 0 8px #ef39dd;
+      outline: none;
+    }
+    input[readonly] {
+      background: #444;
+      cursor: not-allowed;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #ef39dd;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #f555d7;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .error {
+      color: #ff5555;
+      font-weight: bold;
+      font-size: 16px;
+      margin: 15px 0;
+      text-align: center;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+    }
+    a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
+  <img src="banner.png" id="banner">
+  <div id="auth-error" class="error" style="display:none;">
+    ❌ 錯誤，您沒通過驗證<br><br>
+    <a href="https://auth.walking-cat.com">👉 點我去驗證</a>
+  </div>
 
-<div id="container" style="display:none;">
-    <h1>公告系統（免登入）</h1>
-    <form id="announceForm">
-        <p>據某人說，只要是帥/美的人發送的訊息，會有神秘的事情發生！</p>
+  <form id="announce-form" style="display:none;">
+    <input type="text" id="helper" value="" readonly>
+    <input type="text" id="title" placeholder="📝 公告主旨 (可留空)">
+    <textarea id="description" placeholder="📄 公告內容" rows="5" required></textarea>
+    <label>📌 選擇要發送的頻道：</label>
+    <select id="webhooks" multiple required>
+      <option value="投票and公告">投票 and 公告</option>
+      <option value="影片通知">影片通知</option>
+      <option value="聊天群">聊天群</option>
+      <option value="規則">規則</option>
+      <option value="警告">警告</option>
+    </select>
+    <label>📦 顯示方式：</label>
+    <select id="type">
+      <option value="embed">Embed</option>
+      <option value="text">Text</option>
+    </select>
+    <button type="submit">🚀 發送公告</button>
+  </form>
 
-        <label for="helper">請發送公告的人：</label>
-        <select id="helper" name="helper" class="input-glow">
-            <option value="最帥的Hugo">Hugo</option>
-            <option value="小黃☃">小黃☃</option>
-            <option value="芋兔">芋兔</option>
-            <option value="南極熊ᵃʷᵃ ∞ ت𖧀ఌ">南極熊ᵃʷᵃ ∞ ت𖧀ఌ</option>
-            <option value="叛逆灬步行貓 Walking Cat 🚶🐱">叛逆灬步行貓 Walking Cat 🚶🐱</option>
-            <option value="符符：）">符符：）</option>
-        </select>
+  <div id="result"></div>
 
-        <label for="type">訊息類型：</label>
-        <select id="type" class="input-glow">
-            <option value="embed">Embed（預設）</option>
-            <option value="text">純文字</option>
-        </select>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const auth = params.get("auth");
+    let discordUser = null;
 
-        <div id="embedFields">
-            <label for="task">公告主旨：</label>
-            <input type="text" id="task" maxlength="100" class="input-glow">
-        </div>
-
-        <label for="alert">公告內文：</label>
-        <textarea id="alert" rows="3" maxlength="200" class="input-glow"></textarea>
-
-        <label>選擇發送 Webhook：</label>
-        <div class="webhook-container">
-            <label><input type="checkbox" class="webhook" value="https://discord.com/api/webhooks/1240290732103831603/sbEitRzOWZuFZ6YVvBKlWi407kfL3I4xeq28M2qJIypElfkIjKWIr_9dMEvNUykwBAg8"><span></span> 投票and公告</label>
-            <label><input type="checkbox" class="webhook" value="https://discord.com/api/webhooks/1409399410345119817/ak9spi7jpY99NgFPWJx4Oe-Jm06m-xBwFsWGDmGzA7N7Rwdwa6Lz-9LSKlyXz2hpnh3t"><span></span> 聊天機器人</label>
-            <label><input type="checkbox" class="webhook" value="https://discord.com/api/webhooks/1409398844755808256/v_MY7okYZqkJ1oucXw1tbs2p7OpMNayZpuLIdHL2UfsIuX-M6UIQZFwRhfCfqkyz02zq"><span></span> 規則機器人</label>
-            <label><input type="checkbox" class="webhook" value="https://discord.com/api/webhooks/1409399513634046002/wot8d0YrCIA5qEVpfzx-ZPHxDSVXukb7xsmUPG5tYA6iN-jQWxkVzVMZHUOTJpcoTUHL"><span></span> 通知機器人</label>
-            <label><input type="checkbox" class="webhook" value="https://discord.com/api/webhooks/1409422385156718622/kr191RYo9TKduMkNWnfQCqLZoypYXdBQyxxp98wY3bLBzWsmmr0C_qQpe-zznQIpcg_g"><span></span> 警告機器人</label>
-        </div>
-
-        <input type="button" value="提交" class="input-glow" onclick="sendMessage()">
-    </form>
-</div>
-
-<div id="error"></div>
-
-<div id="authLinkContainer" style="display:none;">
-    <button class="auth-button input-glow" onclick="window.location.href='https://auth.walking-cat.com'">前往驗證頁面</button>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-const urlParams = new URLSearchParams(window.location.search);
-const auth = urlParams.get('auth');
-
-if(auth === 'success') {
-    document.getElementById('container').style.display = 'block';
-    window.history.replaceState({}, document.title, window.location.pathname);
-} else if(auth === 'error') {
-    document.getElementById('error').innerText = '錯誤！未經認證的帳號。';
-    document.getElementById('authLinkContainer').style.display = 'block';
-} else {
-    document.getElementById('error').innerText = '未經認證，請由認證連結進入。';
-    document.getElementById('authLinkContainer').style.display = 'block';
-}
-
-// 顯示/隱藏 embed 主旨欄位
-document.getElementById('type').addEventListener('change', () => {
-    document.getElementById('embedFields').style.display = document.getElementById('type').value === 'embed' ? 'block' : 'none';
-});
-
-function getCurrentTime() {
-    const now = new Date();
-    const padZero = num => num < 10 ? '0'+num : num;
-    return `${now.getFullYear()}/${padZero(now.getMonth()+1)}/${padZero(now.getDate())} ${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())}`;
-}
-
-function sendMessage() {
-    const type = document.getElementById('type').value;
-    const selectValue = document.getElementById('helper').value;
-    const taskValue = document.getElementById('task').value;
-    const alertValue = document.getElementById('alert').value;
-    const currentTime = getCurrentTime();
-
-    const webhooks = Array.from(document.querySelectorAll('.webhook:checked')).map(cb => cb.value);
-    if(webhooks.length === 0){
-        Swal.fire({ title: "請至少選擇一個 Webhook", icon: "warning" });
-        return;
+    if(auth === "success"){
+      document.getElementById("announce-form").style.display = "block";
+      discordUser = JSON.parse(localStorage.getItem("discordUser"));
+      if(!discordUser){
+        alert("⚠️ 未取得 Discord 使用者資料，請重新登入。");
+      } else {
+        document.getElementById("helper").value = `${discordUser.username}#${discordUser.discriminator}`;
+      }
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else {
+      document.getElementById("auth-error").style.display = "block";
     }
 
-    webhooks.forEach(url => {
-        let message;
-        if(type === 'embed') {
-            message = {
-                embeds: [{
-                    title: taskValue || "公告",
-                    description: `發送訊息者: ${selectValue}\n公告內文: ${alertValue}`,
-                    color: 16776960
-                }]
-            };
+    const webhookUrls = {
+      "投票and公告": "https://discord.com/api/webhooks/1240290732103831603/sbEitRzOWZuFZ6YVvBKlWi407kfL3I4xeq28M2qJIypElfkIjKWIr_9dMEvNUykwBAg8",
+      "影片通知": "https://discord.com/api/webhooks/1409399410345119817/ak9spi7jpY99NgFPWJx4Oe-Jm06m-xBwFsWGDmGzA7N7Rwdwa6Lz-9LSKlyXz2hpnh3t",
+      "聊天群": "https://discord.com/api/webhooks/1409399513634046002/wot8d0YrCIA5qEVpfzx-ZPHxDSVXukb7xsmUPG5tYA6iN-jQWxkVzVMZHUOTJpcoTUHL",
+      "規則": "https://discord.com/api/webhooks/1409398844755808256/v_MY7okYZqkJ1oucXw1tbs2p7OpMNayZpuLIdHL2UfsIuX-M6UIQZFwRhfCfqkyz02zq",
+      "警告": "https://discord.com/api/webhooks/1409422385156718622/kr191RYo9TKduMkNWnfQCqLZoypYXdBQyxxp98wY3bLBzWsmmr0C_qQpe-zznQIpcg_g"
+    };
+
+    document.getElementById("announce-form").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      if(!discordUser) return;
+
+      const helper = document.getElementById("helper").value;
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+      const type = document.getElementById("type").value;
+      const selectedWebhooks = Array.from(document.getElementById("webhooks").selectedOptions).map(o=>o.value);
+      const usernameTag = `${discordUser.username}#${discordUser.discriminator}`;
+
+      for(const key of selectedWebhooks){
+        const url = webhookUrls[key];
+        let payload;
+        if(type==="embed"){
+          payload = {
+            embeds:[{
+              title: title || "公告",
+              description: `${description}\n\n發送者：${helper}（${usernameTag}）`,
+              color: 16776960
+            }]
+          };
         } else {
-            message = { content: alertValue };
+          payload = { content: `${description}（${helper} | ${usernameTag}）` };
         }
 
-        fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(message)
-        })
-        .catch(err => console.error(err));
+        try{
+          await fetch(url,{
+            method:"POST",
+            headers:{ "Content-Type":"application/json" },
+            body: JSON.stringify(payload)
+          });
+        }catch(err){
+          console.error("發送錯誤：", err);
+          document.getElementById("result").innerText = "❌ 發送錯誤：" + err.message;
+          return;
+        }
+      }
+
+      document.getElementById("result").innerText = "✅ 公告發送成功！";
+      document.getElementById("announce-form").reset();
+      document.getElementById("helper").value = `${discordUser.username}#${discordUser.discriminator}`;
     });
-
-    Swal.fire({ title: "訊息已送出", icon: "success" });
-}
-</script>
-
+  </script>
 </body>
 </html>
-
