@@ -85,11 +85,15 @@ input[type="button"]:hover {
 <body>
 <p>公告系統（免登入）</p>
 <form action="" method="post">
+  <p>據某人說只要是帥/美的人發送的訊息，會有神秘的事情發生！</p>
   <label for="helper">請發送公告的人：</label>
   <select id="helper" name="helper">
-    <option value="Hugo">Hugo</option>
-    <option value="管理員">管理員</option>
-    <option value="版主">版主</option>
+    <option value="最帥的Hugo">Hugo</option>
+    <option value="小黃☃">小黃☃</option>
+    <option value="芋兔">芋兔</option>
+    <option value="南極熊ᵃʷᵃ ∞ ت𖧀ఌ">南極熊ᵃʷᵃ ∞ ت𖧀ఌ</option>
+    <option value="叛逆灬步行貓 Walking Cat 🚶🐱">叛逆灬步行貓 Walking Cat 🚶🐱</option>
+    <option value="符符：）">符符：）</option>
   </select>
   <br><br>
   <label for="task">請填寫公告內容：</label>
@@ -129,8 +133,8 @@ input[type="button"]:hover {
             const currentTime = getCurrentTime();
             const webhookUrl = 'https://discord.com/api/webhooks/1233007060661174333/OGsn0vzu2GQj0zUNvm7tNPINTmK3TTtCePF8KGrtyR8wnnpHhY3uo2QvRzjRIZZxIyHk'; // 替換為你的 Discord Webhook URL
             const embed = {
-                title: 'Hugo伺服器 管理員系統 Webmail （公告） - 發送時間：' + currentTime,
-                description: `發送者: ${selectValue}\n公告主旨: ${inputValue}\n公告內文: ${textValue}`,
+                title: 'Hugo伺服器 公告 系統- 公告時間：' + currentTime,
+                description: `發送訊息者: ${selectValue}\n公告主旨: ${inputValue}\n公告內文: ${textValue}`,
                 color: 14423100, // Embed 色彩，十六進制表示
             };
             const message = {
@@ -165,3 +169,4 @@ input[type="button"]:hover {
 </html>
 
 <!-- 此產品製作by 靈魂鯊、糖豆魚(PTDTW) -->
+
