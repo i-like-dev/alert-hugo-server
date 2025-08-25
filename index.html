@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<title>公告系統/title>
+<title>公告系統</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -137,15 +137,10 @@
   const app = document.getElementById("app");
 
   if (auth === "success") {
-    Swal.fire({
-      title: "✅ 驗證成功",
-      text: "即將進入公告系統...",
-      icon: "success",
-      timer: 800,
-      showConfirmButton: false
-    }).then(() => {
-      showForm();
-    });
+    // 直接顯示表單
+    showForm();
+    // 清除網址上的 ?auth=success
+    history.replaceState({}, document.title, window.location.pathname);
   } else if (auth === "error") {
     Swal.fire({
       title: "❌ 錯誤",
@@ -169,7 +164,7 @@
   function showForm() {
     app.innerHTML = `
       <div class="container">
-        <h1>公告系統</h1>
+        <h1>公告系統（免登入）</h1>
         <p class="desc">據某人說只要是帥/美的人發送的訊息，會有神秘的事情發生！</p>
         <form>
           <label for="helper">請發送公告的人：</label>
